@@ -132,6 +132,3 @@ https://drive.google.com/file/d/13Jez_t-zlCY9VO-dskcfzjaCsl4pcMxr/view
 
 <img width="701" alt="image" src="https://github.com/user-attachments/assets/dcb97e10-dc53-4877-abc4-113f1ab33ef8" />
 
-### **🚀 트러블 슈팅**
-
-
