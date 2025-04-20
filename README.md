@@ -106,6 +106,31 @@ https://drive.google.com/file/d/13Jez_t-zlCY9VO-dskcfzjaCsl4pcMxr/view
 
 ### **🌈 개선 사항**
 
+1️⃣ 문제 상황 
+- 대량 상품 등록시 배치로 처리하고 있는데, 100,000만건 이상의 상품 등록부터 응답 시간이 너무 느림
+
+**1차 성능 개선 JPA → JDBC**
+
+- 기존 `JPA saveAll()`은 대량 데이터 처리 시 개별 쿼리 실행 + 메모리 오버헤드 발생
+- `JDBC batchUpdate()`로 변경하여 **약 95% 이상의 성능 개선** 달성
+
+**2차 개선: JDBC → MyBatis + 실패 데이터 추적 개선**
+
+- **JDBC → MyBatis**
+    - JDBC와 성능 비교시 차이가 얼마 나지 않음을 확인
+    - SQL과 로직 분리를 통해 유지보수성 향상
+- **DB 등록 실패 데이터 추적 방식 개선 (MyBatis)**
+    - 기존: 개별 쿼리 반복 → **성능 5~9배 저하**
+    - 개선: BULK INSERT 후 DB에서 조회하여 비교 → **기존 대비 3배 성능 개선**
+
+ **3차 개선: 순차 처리 → 병렬 처리**
+
+- 삽입과 등록 실패 추적 로직을 병렬 처리로 전환
+- **2차 개선 대비 약 63% 성능 향상**
+
+**결과**
+
+<img width="701" alt="image" src="https://github.com/user-attachments/assets/dcb97e10-dc53-4877-abc4-113f1ab33ef8" />
 
 ### **🚀 트러블 슈팅**
 
